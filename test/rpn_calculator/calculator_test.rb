@@ -14,4 +14,20 @@ describe RPNCalculator::Calculator do
       @calculator.parser.wont_be_nil
     end
   end
+
+  describe "#calculate" do
+    it "calculates" do
+      @calculator.stack.stubs(:compute)
+      @calculator.parser.expects(:parse).with "2 2 +"
+
+      @calculator.calculate "2 2 +"
+    end
+
+    it "updates the stack" do
+      @calculator.parser.stubs(:parse).returns ["3", "4", "+"]
+      @calculator.stack.expects(:compute).with ["3", "4", "+"]
+
+      @calculator.calculate "3 4 +"
+    end
+  end
 end

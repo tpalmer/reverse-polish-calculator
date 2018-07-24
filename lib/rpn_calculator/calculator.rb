@@ -6,5 +6,9 @@ module RPNCalculator
       @stack = Stack.new()
       @parser = Parser.new()
     end
+
+    def calculate(command)
+      stack.compute parser.parse(command)
+    end
   end
 end
