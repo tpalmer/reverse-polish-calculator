@@ -14,16 +14,16 @@ describe RPNCalculator::Calculator do
   describe "#calculate" do
     it "calculates" do
       @calculator.stack.stubs(:compute)
-      @calculator.expects(:parse).with "2 2 +"
+      @calculator.expects(:parse).with("2 2 +")
 
-      @calculator.calculate "2 2 +"
+      @calculator.calculate("2 2 +")
     end
 
     it "updates the stack" do
-      @calculator.stubs(:parse).returns ["3", "4", "+"]
-      @calculator.stack.expects(:compute).with ["3", "4", "+"]
+      @calculator.stubs(:parse).returns(["3", "4", "+"])
+      @calculator.stack.expects(:compute).with(["3", "4", "+"])
 
-      @calculator.calculate "3 4 +"
+      @calculator.calculate("3 4 +")
     end
   end
 
