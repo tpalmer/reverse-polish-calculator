@@ -1,5 +1,7 @@
 module RPNCalculator
   class Stack
+    class NotEnoughTokensError < StandardError; end;
+    class StackError < StandardError; end;
 
     attr_reader :elements
 
@@ -8,22 +10,34 @@ module RPNCalculator
     end
 
     def compute(tokens)
-    end
+      self.elements.clear
 
-    def push(token)
-      elements.push(token)
-    end
+      tokens.each do |token|
+        if token.is_a? Numeric
+          self.elements.push(token)
+          next
+        end
 
-    def pop(amount)
-      elements.pop(amount)
-    end
+        if self.elements.size < 2
+          raise NotEnoughTokensError.new(
+            "Not enough tokens, plese enter at least two values."
+          )
+        end
 
-    def size
-      elements.size
-    end
+        result = self.elements.pop(2).reduce do |accumulator, element|
+          accumulator.send(token, element.to_f)
+        end
 
-    def clear
-      elements.clear
+        self.elements.push(result)
+      end
+
+      if self.elements.size > 1
+        raise StackError.new(
+          "The stack has more than one value: #{self.elements.inspect}"
+        )
+      end
+
+      self.elements.first
     end
   end
 end
