@@ -41,14 +41,6 @@ describe RPNCalculator::Stack do
       @stack.compute([:+])
     end
 
-    it "gracefully handles an invalid stack size" do
-      @stack.elements.stubs(:size).returns(2)
-
-      assert_raises RPNCalculator::Stack::StackError do
-        @stack.compute([:*])
-      end
-    end
-
     it "computes the result and returns the first element" do
       @stack.compute([9, 9, :+]).must_equal 18
     end

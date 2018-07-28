@@ -31,12 +31,6 @@ module RPNCalculator
         self.elements.push(result)
       end
 
-      if self.elements.size > 1
-        raise StackError.new(
-          "The stack has more than one value: #{self.elements.inspect}"
-        )
-      end
-
       self.elements.first
     end
   end
