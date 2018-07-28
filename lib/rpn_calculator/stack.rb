@@ -31,7 +31,7 @@ module RPNCalculator
         self.elements.push(result)
       end
 
-      self.elements.first
+      self.elements.last
     end
   end
 end

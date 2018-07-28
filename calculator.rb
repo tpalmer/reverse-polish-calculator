@@ -10,22 +10,28 @@ calculator = RPNCalculator::Calculator.new
 op_validator = Regexp.escape(RPNCalculator::Calculator::OPERATORS.to_s)
 stack = []
 
-puts "'q' to quit"
-puts "'c' to clear stack"
-puts "'s' to view stack"
+cli.say("'q' to quit")
+cli.say("'c' to clear stack")
+cli.say("'s' to view stack")
 
 input = nil
-while input != 'q'
-  input = cli.ask('> ') { |q| q.validate = /^[0-9,#{op_validator},q,c,s]+$/}
-  if input == 'c'
-    stack.clear
-    puts "Cleared stack."
-    next
+while
+  begin
+    input = cli.ask('> ') { |q| q.validate = /^[0-9,#{op_validator},q,c,s]+$/}
+  rescue EOFError
+    break
   end
 
-  if input == 's'
-    puts "Stack: #{stack.join(' ')}"
+  case input
+  when 'c'
+    stack.clear
+    cli.say("Cleared stack.")
     next
+  when 's'
+    cli.say("Stack: #{stack.join(' ')}")
+    next
+  when 'q'
+    break
   end
 
   stack.push(input)
@@ -33,10 +39,12 @@ while input != 'q'
   unless (Float(input) rescue false)
     begin
       input = calculator.calculate(stack.join(' '))
+      stack.pop(3)
+      stack.push(input)
     rescue Exception => ex
-      puts "#{ex.message}"
+      cli.say("#{ex.message}")
     end
   end
 
-  puts input
+  cli.say(input)
 end
