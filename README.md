@@ -1,14 +1,14 @@
 ## reverse-polish-calculator
 
 The calculator is composed of two classes responsible for driving the business
-logic:  
+logic:
 
 RPNCalculator::Calculator - The public interface, also contains input parsing
-                            logic
+logic
 
 RPNCalculator::Stack - The main business logic lives here, and is responsible
-                       for performing the operations parsed by
-                       RPCalculator::Calculator
+for performing the operations parsed by
+RPCalculator::Calculator
 
 Each class is composed of relatively small methods, making them easy to test.
 The business logic in the Calculator class takes advantage of the Array#map
@@ -19,18 +19,28 @@ The business logic in the Stack class relies on the Array#reduce method, which
 is a straightforward, performant method of processing the last two elements on
 the stack.
 
-In the interest of time, I have not provided a convenient user-facing interface
-to the underlying business logic.  The next step would be to create a CLI that
-makes it easier for the user, so they don't have to write a script or use a REPL
-in order to access the calculator.  I also would have liked to have added
-persistence to the stack, currently it's not designed for multiple calls to
-Calculator#calculate.
+Future changes would be to further refine the user interaction, and make things
+more intuitive. It also would be nice to have full test coverage on the CLI
+logic, so I'd probably pull out some of that logic into a separate class so it's
+more testable.
 
-Using the Calculator class:
+Using the Calculator:
 
 ```
-calculator = RPNCalculator::Calculator.new
-calculator.calculate("2 2 +")
+ruby calculator.rb
+
+'q' to quit
+'c' to clear stack
+'s' to view stack
+> 1
+1
+> 2
+2
+> +
+3.0
+> s
+Stack: 3.0
+> q
 ```
 
 Running the specs:
